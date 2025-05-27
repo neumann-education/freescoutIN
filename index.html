@@ -1,629 +1,582 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Consulta - Blackwell</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<style>
-    :root {
-        --primary-color: #6B46C1;
-        --secondary-color: #9F7AEA;
-        --hover-color: #553C9A;
-        --bg-color: rgba(255, 255, 255, 0.98);
-        --text-color: #2D3748;
-        --border-color: #E9D8FD;
-    }
+    <!-- Meta and Styling -->
+    <META HTTP-EQUIV='content-type' CONTENT='text/html; charset=UTF-8'>
+    <title>Soporte - Neumann Education</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Reemplaza este favicon si tienes uno específico para Neumann -->
+    <link rel="icon" type="image/png" href="https://baltic.bitrix24.es/b15495391/resize_cache/922217/c8042d925d6656dd077f15192d13bb8f/landing/058/058e319bae968a652161a123656e429b/favicon.png" sizes="96x96">
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #6B46C1 0%, #805AD5 100%);
-        min-height: 100vh;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        position: relative;
-        overflow-x: hidden;
-    }
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">
 
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%239F7AEA' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
-        background-size: cover;
-        z-index: -1;
-        animation: gradientBG 15s ease infinite;
-    }
-
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    .loading-select {
-        position: relative;
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loadingAnimation 1.5s infinite;
-        border-radius: 12px;
-        pointer-events: none;
-    }
-
-    @keyframes loadingAnimation {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-    }
-
-    .loading-text {
-        color: #6B46C1;
-        font-size: 0.85em;
-        margin-top: 5px;
-        display: none;
-    }
-
-    .loading-select + .loading-text {
-        display: block;
-    }
-
-    .device-indicator {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(107, 70, 193, 0.9);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-size: 15px;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        z-index: 1000;
-    }
-
-    .device-indicator:hover {
-        transform: translateY(-3px) scale(1.05);
-        background: rgba(128, 90, 213, 0.95);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    .form-container {
-        background: var(--bg-color);
-        padding: 40px;
-        width: 100%;
-        max-width: 650px;
-        min-width: 650px;
-        border-radius: 24px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(10px);
-        transform: translateY(0);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        animation: formAppear 0.8s ease-out;
-    }
-
-    @keyframes formAppear {
-        0% { 
-            opacity: 0;
-            transform: translateY(30px);
+    <!-- Core Styles -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Source Serif 4', serif;
+            /* Considera una imagen de fondo relevante para Neumann o un color sólido */
+            background-image: url('https://cdn.bitrix24.es/b15495391/landing/d57/d57110650309f1422168e86abc2d633d/01.10.Nmnn-Portada2-_1_2x.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
         }
-        100% { 
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .form-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 5px;
-        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        animation: borderGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes borderGlow {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
-
-    .form-header {
-        text-align: center;
-        margin-bottom: 35px;
-        padding-bottom: 25px;
-        border-bottom: 2px solid var(--border-color);
-        position: relative;
-    }
-
-    .form-header h1 {
-        font-size: 28px;
-        color: var(--text-color);
-        margin-bottom: 15px;
-        font-weight: 600;
-        position: relative;
-        display: inline-block;
-    }
-
-    .form-header h1::after {
-        content: '';
-        position: absolute;
-        bottom: -5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 3px;
-        background: var(--secondary-color);
-        border-radius: 2px;
-    }
-
-    .form-group {
-        margin-bottom: 25px;
-        position: relative;
-        overflow: hidden;
-        animation: slideUp 0.5s ease-out forwards;
-        opacity: 0;
-    }
-
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    .form-group:nth-child(4) { animation-delay: 0.4s; }
-
-    @keyframes slideUp {
-        from {
-            transform: translateY(20px);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    .form-label {
-        font-weight: 500;
-        color: var(--text-color);
-        margin-bottom: 10px;
-        display: block;
-        font-size: 16px;
-    }
-
-    .form-control {
-        border: 2px solid var(--border-color);
-        border-radius: 12px;
-        padding: 14px;
-        width: 100%;
-        transition: all 0.3s ease;
-        font-size: 15px;
-        color: var(--text-color);
-        background: rgba(255, 255, 255, 0.8);
-    }
-
-    .form-control:focus {
-        border-color: var(--secondary-color);
-        box-shadow: 0 0 0 4px rgba(159, 122, 234, 0.15);
-        outline: none;
-        background: white;
-        transform: translateY(-2px);
-    }
-
-    .form-select {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B46C1' d='M3.5 4.5L6 7l2.5-2.5L9 5l-3 3-3-3z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        background-size: 12px;
-        padding-right: 45px;
-        width: 100%;
-        max-width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .form-select option {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-    }
-
-    .modalidad-selector {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 30px;
-        animation: fadeIn 0.5s ease-out forwards;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .modalidad-btn {
-        padding: 12px 25px;
-        border: 2px solid var(--secondary-color);
-        background: transparent;
-        color: var(--secondary-color);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-        font-size: 15px;
-        min-width: 140px;
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .modalidad-btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        background: var(--secondary-color);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        transition: width 0.6s ease, height 0.6s ease;
-        z-index: -1;
-    }
-
-    .modalidad-btn:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .modalidad-btn:hover {
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(107, 70, 193, 0.2);
-    }
-
-    .modalidad-btn.active {
-        background: var(--secondary-color);
-        color: white;
-        transform: scale(1.05);
-        box-shadow: 0 5px 15px rgba(107, 70, 193, 0.3);
-    }
-
-    .btn-submit {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        color: white;
-        border: none;
-        padding: 16px 32px;
-        border-radius: 12px;
-        width: 100%;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 20px;
-        position: relative;
-        overflow: hidden;
-        animation: fadeInUp 0.5s ease-out forwards;
-        animation-delay: 0.5s;
-        opacity: 0;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .btn-submit:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 7px 14px rgba(107, 70, 193, 0.3);
-    }
-
-    .btn-submit:active {
-        transform: translateY(-1px);
-        box-shadow: 0 5px 10px rgba(107, 70, 193, 0.2);
-    }
-
-    @media (max-width: 768px) {
-        .form-container {
-            min-width: auto;
-            width: 95%;
-            margin: 10px;
+        
+        .container {
+            min-height: 100vh; /* Asegura que el contenedor ocupe al menos toda la altura de la ventana */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
+            box-sizing: border-box;
         }
 
-        .form-header h1 {
-            font-size: 24px;
+        .container-form {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 1200px; /* Ajusta según necesidad */
+            display: flex;
+            flex-direction: row;
+            overflow: hidden; /* Para que los bordes redondeados apliquen bien */
         }
 
-        .modalidad-btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            min-width: 120px;
+        .info-box {
+            background: linear-gradient(to bottom,   #56188F, #56188F); /* Ajusta colores si Neumann tiene otros corporativos */
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            width: 40%;
+            border-radius: 12px 0 0 12px;
         }
 
-        .device-indicator {
-            top: 10px;
-            right: 10px;
-            padding: 8px 16px;
-            font-size: 13px;
+        .info-box img.logo { /* Clase específica para el logo */
+            max-width: 200px; /* Ajusta el tamaño del logo */
+            height: auto;
+            margin-bottom: 20px;
         }
-    }
 
-    /* Estilos personalizados para SweetAlert2 */
-    .swal2-popup {
-        border-radius: 20px !important;
-        padding: 2em !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(10px) !important;
-        box-shadow: 0 25px 50px -12px rgba(107, 70, 193, 0.25) !important;
-    }
+        .info-box h5 {
+            font-size: 24px; /* Ajustado */
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .info-box p {
+            font-size: 16px; /* Ajustado */
+        }
 
-    .swal2-title {
-        color: var(--primary-color) !important;
-        font-family: 'Poppins', sans-serif !important;
-        font-weight: 600 !important;
-    }
+        .form-container {
+            width: 60%;
+            padding: 40px;
+            background-color: #FFFFFF; /* Asegura fondo blanco */
+            border-radius: 0 12px 12px 0;
+        }
 
-    .swal2-html-container {
-        font-family: 'Poppins', sans-serif !important;
-        color: var(--text-color) !important;
-    }
+        .form-label {
+            font-weight: bold;
+        }
+        
+        .form-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+        }
+        .form-header h3 {
+            font-weight: bold;
+        }
 
-    .swal2-confirm {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
-        border-radius: 12px !important;
-        padding: 12px 30px !important;
-        font-family: 'Poppins', sans-serif !important;
-        font-weight: 500 !important;
-        transition: all 0.3s ease !important;
-    }
+        .btn-primary {
+            background: linear-gradient(to right,  #56188F, #56188F); /* Ajusta colores si es necesario */
+            border: none;
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 8px;
+            color: white;
+            width: auto; /* Permite que el botón se ajuste al texto */
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right,  #56188F, #56188F);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 8px;
+            color: white;
+            width: auto;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .mandatory-field-indicator {
+            color: #ff6448;
+            margin-left: 2px;
+        }
+        
+        /* Estilo para los inputs marcados como obligatorios por JS/CSS de Zoho (si se usa la clase original) */
+        .manfieldbdr {
+            border-left: 3px solid #ff6448 !important;
+        }
+        /* Estilo para inputs con el atributo required de HTML5 */
+        input:required, textarea:required {
+             /* Bootstrap ya maneja esto bien, pero puedes añadir un borde si quieres ser más explícito */
+             /* border-left: 3px solid #ff6448; */
+        }
+        
+        #zsFileBrowseAttachments {
+            clear: both;
+            margin-top: 10px;
+        }
+        .filenamecls { /* Estilo para los nombres de archivo adjuntos */
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .filenamecls .closefunction {
+            cursor: pointer;
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .file-info-message { /* Para los mensajes de tamaño/límite de adjuntos */
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+        
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .form-footer img {
+            max-width: 16px;
+            max-height: 16px;
+            margin-left: 5px;
+        }
 
-    .swal2-cancel {
-        background: #E2E8F0 !important;
-        color: #4A5568 !important;
-        border-radius: 12px !important;
-        padding: 12px 30px !important;
-        font-family: 'Poppins', sans-serif !important;
-        font-weight: 500 !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .swal2-confirm:hover, .swal2-cancel:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 7px 14px rgba(107, 70, 193, 0.2) !important;
-    }
-</style>
-</head>
-<body>
-    <div id="device-indicator" class="device-indicator">💻 Modo PC</div>
-    <div id="form-container"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxySL54vnR8Ola2aYKk5JAFOl4qCZyP6Li0ao8VuqqcT23Y8ate5V2eaCOsBNXgL4kI/exec';
-        let asuntosPresencial = [];
-        let asuntosOnline = [];
-        let dataCargada = false;
-
-        const swalCustom = Swal.mixin({
-            customClass: {
-                popup: 'swal2-popup',
-                title: 'swal2-title',
-                confirmButton: 'swal2-confirm',
-                cancelButton: 'swal2-cancel'
-            },
-            buttonsStyling: false,
-            showClass: {
-                popup: 'animate__animated animate__fadeInUp animate__faster'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__fadeOutDown animate__faster'
+        @media (max-width: 992px) { /* Ajuste para tablets y móviles */
+            .container-form {
+                flex-direction: column;
+                max-width: 600px; /* Que no sea tan ancho en pantallas pequeñas */
             }
+            .info-box {
+                width: 100%;
+                border-radius: 12px 12px 0 0;
+                padding: 30px;
+                align-items: center; /* Centrar contenido en móviles */
+                text-align: center;
+            }
+            .info-box img.logo {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .form-container {
+                width: 100%;
+                border-radius: 0 0 12px 12px;
+                padding: 30px;
+            }
+            .form-header h3 {
+                text-align: center;
+            }
+        }
+    </style>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='https://d17nz991552y2g.cloudfront.net/app/js/jqueryandencoder.ef05974972bf3bca1b87.js'></script>
+    
+    <!-- Form Logic Script (Adaptado para JVN) -->
+    <script>
+        var zsAttachedAttachmentsCount = 0;
+        var zsAllowedAttachmentLimit = 5; // Límite de Zoho
+        var zsAttachmentFileBrowserIdsList = [1, 2, 3, 4, 5]; // Para manejar los 5 inputs
+        var zsCloudPickerJSON = {}; // Si usaras cloud picker de Zoho
+        var ZSEncoder = {encodeForHTML : function(str){if(str && typeof(str)==='string'){return jQuery.encoder.encodeForHTML(str);}return str;}};
+
+
+        // Funciones de dependencia de campos (generalmente no usadas en formularios simples de Zoho Desk)
+        function trimBoth(str) { return jQuery.trim(str); }
+        function getMapDependenySelectValues(module, key){ var dependencyObj = jQuery.parseJSON( jQuery("[id='dependent_field_values_" + module + "']").val() ); if(dependencyObj == undefined){return dependencyObj;} return dependencyObj[key]; }
+        function setDependent(obj, isload){ /* ... Lógica original de Zoho ... Esta función es compleja y usualmente no necesaria si no tienes campos dependientes configurados en Zoho Desk para este formulario. La he omitido por brevedad pero puedes reinsertarla si es vital y está configurada.*/ }
+        function setAllDependancyFieldsMapping() {
+            var formName = 'zsWebToCase_1136017000000376367'; // JVN Form Name
+            var mapDependancyLabels = getMapDependenySelectValues(jQuery("[id='property(module)']").val(), "JSON_MAP_DEP_LABELS");
+            if (mapDependancyLabels) {
+                for (var i = 0; i < mapDependancyLabels.length; i++) {
+                    var label = mapDependancyLabels[i];
+                    var obj = document.forms[formName][label];
+                    if (obj) {
+                        setDependent(obj, true);
+                    }
+                }
+            }
+        }
+        
+        // Form initialization on document ready
+        document.addEventListener('DOMContentLoaded', function() { // Cambiado a DOMContentLoaded
+            if (window.zsRegenerateCaptcha) { // Si usaras captcha de Zoho
+                zsRegenerateCaptcha();
+            }
+            setAllDependancyFieldsMapping();
+            if(document.getElementById('zsSubmitButton_1136017000000376367')) {
+                document.getElementById('zsSubmitButton_1136017000000376367').removeAttribute('disabled');
+            }
+            // Inicializar manejo de adjuntos
+            initAttachmentLogic();
         });
 
-        // Función para cargar asuntos en segundo plano
-        async function cargarAsuntos() {
-            try {
-                const formData = new FormData();
-                formData.append('action', 'getAsuntos');
+        function initAttachmentLogic() {
+            zsAttachedAttachmentsCount = 0;
+            zsAttachmentFileBrowserIdsList = [1, 2, 3, 4, 5];
+            jQuery('#zsFileBrowseAttachments').html(''); // Limpiar lista de adjuntos visual
+             // Ocultar todos los inputs de archivo excepto el primero
+            for (let i = 2; i <= 5; i++) {
+                jQuery('#zsattachment_' + i).hide();
+            }
+            jQuery('#zsattachment_1').show();
+            updateAttachmentMessages();
+        }
+        
+        // Form Reset Function
+        function zsResetWebForm(webFormId) {
+            var formName = 'zsWebToCase_' + webFormId;
+            if(document.forms[formName]) {
+                document.forms[formName].reset();
+            }
+            if(document.getElementById('zsSubmitButton_1136017000000376367')) {
+                 document.getElementById('zsSubmitButton_1136017000000376367').removeAttribute('disabled');
+            }
+            setAllDependancyFieldsMapping();
+            
+            // Resetear adjuntos
+            initAttachmentLogic();
 
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    asuntosPresencial = data.presencial;
-                    asuntosOnline = data.online;
-                    dataCargada = true;
-                    actualizarSelectAsuntos();
-                    return true;
-                } else {
-                    throw new Error(data.error || 'Error al cargar los asuntos');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                swalCustom.fire({
-                    title: 'Error de Conexión',
-                    text: 'No se pudieron cargar los asuntos. Los datos se actualizarán automáticamente cuando se restablezca la conexión.',
-                    icon: 'warning',
-                    confirmButtonText: 'Entendido'
-                });
-                return false;
+            // Si usas CloudPicker
+            zsCloudPickerJSON = {};
+            if (document.forms[formName] && document.forms[formName]['zsCloudPickerAttachments']) {
+                document.forms[formName]['zsCloudPickerAttachments'].value = JSON.stringify({});
             }
         }
+        
+        // File attachment handling functions
+        function zsOpenFileBrowseAttachment(event, inputElement) {
+            if (zsAttachedAttachmentsCount >= zsAllowedAttachmentLimit) {
+                event.preventDefault(); // No permitir abrir si ya alcanzó el límite
+                return;
+            }
+        }
+        
+        function zsRenderBrowseFileAttachment(inputElement) {
+            if (inputElement.files.length === 0) return; // No hacer nada si no se seleccionó archivo
+            
+            var file = inputElement.files[0];
+            var fileName = file.name;
+            var inputIdNum = parseInt(inputElement.id.replace('zsattachment_', ''));
 
-        function actualizarSelectAsuntos() {
-            const select = document.getElementById('asunto');
-            if (!select) return;
-
-            const modalidadActual = document.querySelector('.modalidad-btn.active')?.textContent.toLowerCase().includes('presencial') ? 'presencial' : 'online';
-            const asuntos = modalidadActual === 'presencial' ? asuntosPresencial : asuntosOnline;
-
-            if (!dataCargada) {
-                select.classList.add('loading-select');
-                select.innerHTML = '<option value="">Conectando con Base de Datos OSE...</option>';
+            // Validar tamaño (20MB)
+            if (file.size / (1024 * 1024) > 20) {
+                alert('El tamaño de archivo máximo permitido es 20MB.');
+                inputElement.value = ''; // Limpiar el input
                 return;
             }
 
-            select.classList.remove('loading-select');
-            select.innerHTML = '<option value="">Seleccione un asunto</option>' + 
-                asuntos.map(asunto => `<option value="${asunto}">${asunto}</option>`).join('');
-        }
+            // Validar extensiones (misma lista que en el código original de Zoho)
+            var extension = fileName.split('.').pop().toLowerCase();
+            var unSupportedExtensions = ["ade","adp","apk","appx","appxbundle","bat","cab","cer","chm","cmd","com","cpl","dll","dmg","exe","hlp","hta","ins","iso","isp","jar","js","jse","lnk","mde","msc","msi","msix","msixbundle","msp","mst","nsh","pif","ps1","pst","reg","scr","sct","shb","sys","tmp","url","vb","vbe","vbs","vxd","wsc","wsf","wsh","terminal"];
+            if (unSupportedExtensions.indexOf(extension) != -1) {
+                alert("El archivo no se ha adjuntado porque su extensión no es compatible.");
+                inputElement.value = ''; // Limpiar
+                return;
+            }
 
-        function cargarFormulario(dispositivo) {
-            const formHTML = `
-                <div class="form-container">
-                    <div class="form-header">
-                        <h1>Formulario de Consulta</h1>
-                        <p class="text-muted">Complete los campos para enviar su consulta</p>
-                    </div>
-                    <form onsubmit="enviarFormulario(event, '${dispositivo}')">
-                        <div class="modalidad-selector">
-                            <button type="button" class="modalidad-btn active" onclick="cambiarModalidad('presencial', this)">Estudiantes Presencial</button>
-                            <button type="button" class="modalidad-btn" onclick="cambiarModalidad('online', this)">Estudiantes Online</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="asunto">Asunto:</label>
-                            <select class="form-control form-select ${!dataCargada ? 'loading-select' : ''}" id="asunto" name="asunto" required>
-                                <option value="">${!dataCargada ? 'Conectando con Base de Datos OSE...' : 'Seleccione un asunto'}</option>
-                                ${dataCargada ? asuntosPresencial.map(asunto => `<option value="${asunto}">${asunto}</option>`).join('') : ''}
-                            </select>
-                            ${!dataCargada ? '<div class="loading-text">Estableciendo conexión con la base de datos...</div>' : ''}
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="nombres">Nombres:</label>
-                            <input type="text" class="form-control" id="nombres" name="nombres" placeholder="Ingrese sus nombres" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="apellidos">Apellidos:</label>
-                            <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Ingrese sus apellidos" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="descripcion">Descripción de la Consulta:</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" rows="5" placeholder="Escriba aquí su consulta" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-submit">Enviar Consulta</button>
-                    </form>
-                </div>
-            `;
-            document.getElementById('form-container').innerHTML = formHTML;
-            actualizarSelectAsuntos();
-        }
-
-        function cambiarModalidad(modalidad, btn) {
-            document.querySelectorAll('.modalidad-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            actualizarSelectAsuntos();
-        }
-
-        function cambiarDispositivo() {
-            const indicador = document.getElementById('device-indicator');
-            const esPc = indicador.textContent.includes('PC');
-            
-            swalCustom.fire({
-                title: '¿Cambiar dispositivo?',
-                text: `¿Deseas cambiar a modo ${esPc ? 'Móvil' : 'PC'}?`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, cambiar',
-                cancelButtonText: 'No, mantener',
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdrop: `rgba(107, 70, 193, 0.4)`
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const nuevoDispositivo = esPc ? 'movil' : 'pc';
-                    indicador.textContent = esPc ? '📱 Modo Móvil' : '💻 Modo PC';
-                    cargarFormulario(nuevoDispositivo);
-                }
-            });
-        }
-
-        function enviarFormulario(event, dispositivo) {
-            event.preventDefault();
-            const asunto = document.getElementById('asunto').value;
-            const nombres = document.getElementById('nombres').value;
-            const apellidos = document.getElementById('apellidos').value;
-            const descripcion = document.getElementById('descripcion').value;
-
-            const cuerpoCorreo = `Nombres: ${nombres}\nApellidos: ${apellidos}\n\nDescripción de la Consulta:\n${descripcion}`;
-
-            swalCustom.fire({
-                title: '¡Listo para enviar!',
-                text: 'Se abrirá su cliente de correo para enviar la consulta',
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Enviar',
-                cancelButtonText: 'Cancelar',
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdrop: `rgba(107, 70, 193, 0.4)`
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (dispositivo === 'pc') {
-                        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@neumann.edu.pe&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
-                        window.open(gmailLink, '_blank');
-                    } else {
-                        const mailtoLink = `mailto:soporte@neumann.edu.pe?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
-                        window.location.href = mailtoLink;
+            if (zsAttachedAttachmentsCount < zsAllowedAttachmentLimit) {
+                // Mostrar el nombre del archivo
+                var fileDisplayId = 'file_display_' + inputIdNum;
+                if (jQuery('#' + fileDisplayId).length > 0) { // Si ya hay un display para este input, lo actualiza
+                    jQuery('#' + fileDisplayId + ' .file-name-text').text(ZSEncoder.encodeForHTML(fileName));
+                } else { // Si no, crea uno nuevo
+                     var fileObj = jQuery(
+                        '<div class="filenamecls" id="' + fileDisplayId + '">' +
+                        '<span class="file-name-text">' + ZSEncoder.encodeForHTML(fileName) + '</span>' +
+                        '<span class="closefunction" onclick="zsRemoveFileAttachment(' + inputIdNum + ')">X</span>' +
+                        '</div>'
+                    );
+                    jQuery('#zsFileBrowseAttachments').append(fileObj);
+                    
+                    // Ocultar este input y mostrar el siguiente si hay disponibles
+                    jQuery(inputElement).hide();
+                    zsAttachedAttachmentsCount++;
+                    var nextId = findNextAvailableInputId();
+                    if (nextId) {
+                        jQuery('#zsattachment_' + nextId).show();
                     }
                 }
-            });
+            }
+            updateAttachmentMessages();
+        }
+        
+        function findNextAvailableInputId() {
+            for (let i = 1; i <= 5; i++) {
+                if (jQuery('#zsattachment_' + i).is(':hidden') && jQuery('#zsattachment_' + i).val() === '') {
+                     // Chequear si ya tiene un display asociado, para evitar mostrar uno que ya está "en uso" visualmente
+                    if (jQuery('#file_display_' + i).length === 0) {
+                        return i;
+                    }
+                } else if (jQuery('#zsattachment_' + i).is(':visible') && jQuery('#zsattachment_' + i).val() === '') {
+                    return i; // Si está visible y vacío, es el actual para usar
+                }
+            }
+             // Si todos los inputs visibles ya tienen archivo O todos los ocultos tienen display
+            // buscar el primero oculto que no tenga display aún.
+            for (let i = 1; i <= 5; i++) {
+                if (jQuery('#zsattachment_' + i).is(':hidden') && jQuery('#file_display_' + i).length === 0) {
+                    return i;
+                }
+            }
+            return null; // No hay más inputs disponibles
         }
 
-        // Iniciamos la carga de datos inmediatamente cuando se carga el DOM
-        document.addEventListener('DOMContentLoaded', function() {
-            // Comenzamos la carga de datos inmediatamente
-            cargarAsuntos();
+        function zsRemoveFileAttachment(inputIdNum) {
+            jQuery('#file_display_' + inputIdNum).remove();
+            var inputElement = jQuery('#zsattachment_' + inputIdNum);
+            inputElement.val(''); // Limpiar el valor del input de archivo
+            
+            zsAttachedAttachmentsCount--;
 
-            // Mostramos el diálogo de selección de dispositivo sin esperar
-            swalCustom.fire({
-                title: '¡Bienvenido!',
-                text: '¿En qué dispositivo estás accediendo?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'PC',
-                cancelButtonText: 'Móvil',
-                reverseButtons: true,
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdrop: `rgba(107, 70, 193, 0.4)`
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    cargarFormulario('pc');
-                } else {
-                    document.getElementById('device-indicator').textContent = '📱 Modo Móvil';
-                    cargarFormulario('movil');
+            // Reorganizar: mostrar este input si no hay otro visible y vacío
+            var currentVisibleEmpty = false;
+            for(let i=1; i<=5; i++) {
+                if(jQuery('#zsattachment_' + i).is(':visible') && jQuery('#zsattachment_' + i).val() === '') {
+                    currentVisibleEmpty = true;
+                    break;
                 }
-            });
-        });
-
-        document.getElementById('device-indicator').addEventListener('click', cambiarDispositivo);
+            }
+            if (!currentVisibleEmpty && zsAttachedAttachmentsCount < zsAllowedAttachmentLimit) {
+                 inputElement.show();
+            } else {
+                // Si ya hay uno visible y vacío, o se alcanzó el límite, mantener oculto éste
+                // y asegurarse de que haya uno visible si no se alcanzó el límite.
+                if (zsAttachedAttachmentsCount < zsAllowedAttachmentLimit) {
+                    var nextId = findNextAvailableInputId();
+                    if(nextId && jQuery('#zsattachment_' + nextId).is(':hidden')){
+                        jQuery('#zsattachment_' + nextId).show();
+                    } else if (!nextId && !currentVisibleEmpty) {
+                        // Caso raro: si no hay nextId pero tampoco hay visible y vacío, mostrar el primero vacío que esté oculto
+                         for (let i = 1; i <= 5; i++) {
+                            if (jQuery('#zsattachment_' + i).is(':hidden') && jQuery('#zsattachment_' + i).val() === '') {
+                                jQuery('#zsattachment_' + i).show();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            updateAttachmentMessages();
+        }
+        
+        function updateAttachmentMessages() {
+            if (zsAttachedAttachmentsCount >= zsAllowedAttachmentLimit) {
+                jQuery('#zsMaxLimitMessage').show();
+                 // Ocultar todos los inputs de archivo que estén visibles y vacíos
+                for(let i = 1; i <= 5; i++) {
+                    if(jQuery('#zsattachment_' + i).is(':visible') && jQuery('#zsattachment_' + i).val() === '') {
+                        jQuery('#zsattachment_' + i).hide();
+                    }
+                }
+            } else {
+                jQuery('#zsMaxLimitMessage').hide();
+                // Asegurarse que al menos un input esté visible si no se ha alcanzado el límite
+                let oneVisible = false;
+                for(let i = 1; i <= 5; i++) {
+                    if(jQuery('#zsattachment_' + i).is(':visible')) {
+                        oneVisible = true;
+                        break;
+                    }
+                }
+                if(!oneVisible) {
+                    let nextIdToShow = findNextAvailableInputId();
+                    if(nextIdToShow) jQuery('#zsattachment_' + nextIdToShow).show();
+                }
+            }
+        }
+        
+        // Validation function (Adaptada para JVN)
+        function zsValidateMandatoryFields() {
+            var form = document.forms['zsWebToCase_1136017000000376367'];
+            // Campos obligatorios para JVN
+            var mandatoryFields = {
+                'First Name': 'Nombre',
+                'Contact Name': 'Apellidos',
+                'Email': 'Correo electrónico',
+                'Subject': 'Asunto',
+                'Description': 'Descripción'
+            };
+            var isError = false;
+            
+            for (var fieldName in mandatoryFields) {
+                if (mandatoryFields.hasOwnProperty(fieldName)) {
+                    var fieldObj = form[fieldName];
+                    if (fieldObj) {
+                        // Quitar .manfieldbdr para usar la validación de Bootstrap o :required
+                        // jQuery(fieldObj).removeClass('manfieldbdr'); 
+                        if (fieldObj.value.trim() === '') {
+                            alert(mandatoryFields[fieldName] + ' no puede estar vacío.');
+                            fieldObj.focus();
+                            // jQuery(fieldObj).addClass('manfieldbdr'); // O aplicar una clase de error de Bootstrap
+                            isError = true;
+                            return false; // Detener en el primer error
+                        }
+                    }
+                }
+            }
+            
+            // Validación de Email
+            var emailObj = form['Email'];
+            if (emailObj && emailObj.value.trim() !== '') {
+                // Regex más simple y común para email
+                if (!/^\S+@\S+\.\S+$/.test(emailObj.value.trim())) {
+                    alert('Por favor, introduce una dirección de correo electrónico válida.');
+                    emailObj.focus();
+                    isError = true;
+                    return false;
+                }
+            }
+            
+            if (!isError) {
+                // Deshabilitar botón de envío para prevenir múltiples envíos
+                if(document.getElementById('zsSubmitButton_1136017000000376367')) {
+                    document.getElementById('zsSubmitButton_1136017000000376367').setAttribute('disabled', 'disabled');
+                }
+            }
+            return !isError;
+        }
     </script>
+</head>
+
+<body>
+    <!-- Main Form Container -->
+    <div class="container">
+        <div class="container-form"> <!-- Eliminado class="row" aquí, Bootstrap lo maneja con col-md-* -->
+            <!-- Columna de información -->
+            <div class="info-box">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyf-clCAY5UCQfKMCVt05Pi1rk8VSdULa6BZ4hvrU3LpVI8iC2d0NP2MFYJ5rDf9aIPAI&usqp=CAU" alt="Logo Neumann Education" class="logo"> <!-- REEMPLAZAR URL -->
+                <h5>Soporte Neumann Education</h5>
+                <p>Si tienes alguna duda o problema, completa el siguiente formulario y nuestro equipo se pondrá en contacto contigo a la brevedad.</p>
+            </div>
+             <!-- Columna del formulario -->
+             <div class="form-container">
+                    <form name='zsWebToCase_1136017000000376367' id='zsWebToCase_1136017000000376367' 
+                          action='https://desk.zoho.com/support/WebToCase' method='POST' 
+                          onSubmit='return zsValidateMandatoryFields()' enctype='multipart/form-data'>
+                        
+                        <!-- Hidden Fields para JVN -->
+                        <input type='hidden' name='xnQsjsdp' value='edbsn19c8bcb2900530889d8a94c4c706b0d8'/>
+                        <input type='hidden' name='xmIwtLD' value='edbsn9ee283a40dddf21dc69506c25db9b2bd17b3e86e06122f47c2d1f648e64d617d'/>
+                        <input type='hidden' name='xJdfEaS' value=''/>
+                        <input type='hidden' name='actionType' value='Q2FzZXM='/>
+                        <input type="hidden" id="property(module)" value="Cases"/>
+                        <input type="hidden" id="dependent_field_values_Cases" 
+                               value="{"JSON_VALUES":{},"JSON_SELECT_VALUES":{},"JSON_MAP_DEP_LABELS":[]}"/>
+                       <input type='hidden' name='returnURL' value='https://neumann-education.github.io/freescoutIN/'/>
+                        
+                        <!-- Form Header -->
+                        <div class="form-header">
+                            <h3>Realiza tu solicitud</h3>
+                        </div>
+                        
+                        <!-- Nombre y Apellido en una fila -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">Nombre<span class="mandatory-field-indicator">*</span></label>
+                                <input type="text" class="form-control" id="firstName" name="First Name" maxlength="120" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Apellidos<span class="mandatory-field-indicator">*</span></label>
+                                <input type="text" class="form-control" id="lastName" name="Contact Name" maxlength="120" required>
+                            </div>
+                        </div>
+
+                        <!-- Correo -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico<span class="mandatory-field-indicator">*</span></label>
+                            <input type="email" class="form-control" id="email" name="Email" maxlength="120" required>
+                        </div>
+                        
+                        <!-- Asunto -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Asunto<span class="mandatory-field-indicator">*</span></label>
+                            <input type="text" class="form-control" id="subject" name="Subject" maxlength="255" required>
+                        </div>
+                        
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción<span class="mandatory-field-indicator">*</span></label>
+                            <textarea class="form-control" id="description" name="Description" rows="4" maxlength="3000" required></textarea>
+                        </div>
+
+                        <!-- File Attachment Field -->
+                        <div class="mb-3">
+                            <label for="zsattachment_1" class="form-label">Adjunto(s)</label>
+                            <!-- Inputs de archivo. Solo el primero es visible inicialmente. -->
+                            <input type="file" class="form-control mb-2" id="zsattachment_1" name="attachment_1" onchange="zsRenderBrowseFileAttachment(this)" onclick="zsOpenFileBrowseAttachment(event, this)">
+                            <input type="file" class="form-control mb-2" id="zsattachment_2" name="attachment_2" style="display:none;" onchange="zsRenderBrowseFileAttachment(this)" onclick="zsOpenFileBrowseAttachment(event, this)">
+                            <input type="file" class="form-control mb-2" id="zsattachment_3" name="attachment_3" style="display:none;" onchange="zsRenderBrowseFileAttachment(this)" onclick="zsOpenFileBrowseAttachment(event, this)">
+                            <input type="file" class="form-control mb-2" id="zsattachment_4" name="attachment_4" style="display:none;" onchange="zsRenderBrowseFileAttachment(this)" onclick="zsOpenFileBrowseAttachment(event, this)">
+                            <input type="file" class="form-control mb-2" id="zsattachment_5" name="attachment_5" style="display:none;" onchange="zsRenderBrowseFileAttachment(this)" onclick="zsOpenFileBrowseAttachment(event, this)">
+
+                            <div id="zsFileBrowseAttachments" class="mt-2">
+                                <!-- Los nombres de los archivos adjuntos aparecerán aquí -->
+                            </div>
+                            
+                            <small class="file-info-message d-block">Cada archivo puede tener hasta 20 MB de tamaño.</small>
+                            <div id="zsMaxLimitMessage" class="file-info-message text-danger" style="display: none;">
+                                Puede adjuntar un máximo de 5 archivos a la vez.
+                            </div>
+                        </div>
+                        
+                        <!-- Form Buttons -->
+                        <div class="row mt-4">
+                            <div class="col-12 text-center d-flex justify-content-center gap-2">
+                                <button type="submit" id="zsSubmitButton_1136017000000376367" class="btn btn-primary">Enviar</button>
+                                <button type="button" class="btn btn-secondary" onclick="zsResetWebForm('1136017000000376367')">Restablecer</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer -->
+                        <div class="form-footer mt-4">
+                            <span>desarrollado por</span>
+                            <a target='_blank' rel='noopener noreferrer' href='https://zoho.com/desk' class='ms-1'>
+                                <img src='https://d1ydxa2xvtn0b5.cloudfront.net/app/images/portalLogo.de847024ebc0131731a3.png' alt="Zoho Desk" />
+                            </a>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
