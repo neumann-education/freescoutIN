@@ -170,13 +170,12 @@
             margin-left: 5px;
         }
         
-        /* === NUEVOS ESTILOS PARA EL MODAL MEJORADO === */
         .modal-icon-container {
             width: 80px;
             height: 80px;
-            background-color: #f0e9f7; /* Un púrpura muy claro para el fondo del círculo */
+            background-color: #f0e9f7;
             border-radius: 50%;
-            margin: -50px auto 20px auto; /* Mueve el círculo hacia arriba, parcialmente fuera del modal */
+            margin: -50px auto 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,25 +185,14 @@
         .modal-icon-container svg {
             width: 40px;
             height: 40px;
-            color: #56188F; /* El color púrpura principal para el ícono */
+            color: #56188F;
         }
 
         @media (max-width: 992px) {
-            .container-form {
-                flex-direction: column;
-                max-width: 600px;
-            }
-            .info-box, .form-container {
-                width: 100%;
-                border-radius: 12px 12px 0 0;
-            }
-            .form-container {
-                border-radius: 0 0 12px 12px;
-            }
-            .info-box {
-                align-items: center;
-                text-align: center;
-            }
+            .container-form { flex-direction: column; max-width: 600px; }
+            .info-box, .form-container { width: 100%; border-radius: 12px 12px 0 0; }
+            .form-container { border-radius: 0 0 12px 12px; }
+            .info-box { align-items: center; text-align: center; }
         }
     </style>
     
@@ -215,23 +203,56 @@
     <!-- Form Logic Script -->
     <script>
         var modalidadModal;
-        const opcionesPresencial = ["Matrículas", "Tópicos", "Contacto docente", "Exámenes optativos", "Becas Asistenciales", "Visualización de notas de procesos y acta personal", "Consultas sobre el curso de EFSRT", "Compra de examen optativo 6to ciclo", "Clases de 6to ciclo", "Recuperación de cursos desaprobados", "Retiro de asignatura", "Retiro de periodo académico", "Reservas de Matrícula", "Examen extraordinario", "Registro de huellas", "Cambio a la modalidad virtual", "Justificaciones", "Retomar estudios", "Actividad de Titulación", "Requisitos y costos para la Actividad de Titulación", "Modalidades de Titulación", "Compromiso y Actualización de Pago", "Medios de Pago", "Aplicación de Saldo a Favor", "Cronograma de Pagos", "Gestión de Entrega Documentaria", "Información sobre Prácticas Pre-Profesionales (plan 1992-2014)", "Regularización de Expediente de Admisión", "Solicitud de documentos", "Trámite de Grado de Bachiller Técnico", "Trámite de Título Profesional Técnico"];
-        const opcionesOnline = ["Cambio a la modalidad presencial", "Compra de examen de subsanación", "Consulta de Estado académico", "Recuperación de asignatura desaprobada", "Retiro de asignatura", "Registro de Matrícula", "Solicitud de información del módulo de EFSRT", "Revisión de Observaciones en Evaluaciones", "Inicio de Asignatura", "Bienvenido al módulo de EFSRT", "Compromiso y Actualización de Pago", "Medios de Pago", "Aplicación de Saldo a Favor"];
+
+        // === DATOS PARA LOS MENÚS DESPLEGABLES ===
+
+        const opcionesPresencialCategorizadas = [
+            { categoria: "Trámites Académicos y Matrícula", opciones: ["Matrículas", "Reservas de Matrícula", "Retomar estudios", "Retiro de asignatura", "Retiro de periodo académico", "Cambio a la modalidad virtual"] },
+            { categoria: "Evaluaciones y Calificaciones", opciones: ["Visualización de notas de procesos y acta personal", "Recuperación de cursos desaprobados", "Exámenes optativos", "Examen extraordinario", "Justificaciones"] },
+            { categoria: "Pagos y Asuntos Financieros", opciones: ["Compromiso y Actualización de Pago", "Cronograma de Pagos", "Medios de Pago", "Aplicación de Saldo a Favor", "Becas Asistenciales", "Compra de examen optativo 6to ciclo"] },
+            { categoria: "Cursos y Clases", opciones: ["Contacto docente", "Clases de 6to ciclo", "Consultas sobre el curso de EFSRT"] },
+            { categoria: "Titulación y Grado Académico", opciones: ["Actividad de Titulación", "Modalidades de Titulación", "Requisitos y costos para la Actividad de Titulación", "Trámite de Grado de Bachiller Técnico", "Trámite de Título Profesional Técnico"] },
+            { categoria: "Documentación y Expedientes", opciones: ["Solicitud de documentos", "Gestión de Entrega Documentaria", "Regularización de Expediente de Admisión", "Información sobre Prácticas Pre-Profesionales (plan 1992-2014)"] },
+            { categoria: "Otros Servicios en Campus", opciones: ["Tópicos", "Registro de huellas"] }
+        ];
+
+        // MODIFICADO: Ahora 'Online' también tiene categorías
+        const opcionesOnlineCategorizadas = [
+            { categoria: "Trámites Académicos", opciones: ["Registro de Matrícula", "Retiro de asignatura", "Recuperación de asignatura desaprobada", "Consulta de Estado académico", "Cambio a la modalidad presencial", "Compra de examen de subsanación"] },
+            { categoria: "Cursos y Módulo EFSRT", opciones: ["Bienvenido al módulo de EFSRT", "Solicitud de información del módulo de EFSRT", "Inicio de Asignatura", "Revisión de Observaciones en Evaluaciones"] },
+            { categoria: "Pagos y Finanzas", opciones: ["Compromiso y Actualización de Pago", "Medios de Pago", "Aplicación de Saldo a Favor"] },
+            { categoria: "Trámites de Titulación", opciones: ["Actividad de Titulación", "Requisitos y costos para la Actividad de Titulación", "Modalidades de Titulación"] }
+        ];
+        
+        // === FUNCIONES PRINCIPALES ===
 
         function seleccionarModalidad(modalidad) {
             const subjectSelect = document.getElementById('subject');
             subjectSelect.innerHTML = '';
+            
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
             defaultOption.textContent = 'Seleccione un asunto...';
             subjectSelect.appendChild(defaultOption);
-            let opciones = (modalidad === 'Presencial') ? opcionesPresencial : opcionesOnline;
-            opciones.forEach(opcion => {
-                const optionElement = document.createElement('option');
-                optionElement.value = opcion;
-                optionElement.textContent = opcion;
-                subjectSelect.appendChild(optionElement);
+
+            // Determinar qué fuente de datos usar
+            const dataSource = (modalidad === 'Presencial') ? opcionesPresencialCategorizadas : opcionesOnlineCategorizadas;
+
+            // Poblar el select usando la fuente de datos
+            dataSource.forEach(grupo => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = grupo.categoria;
+                
+                grupo.opciones.forEach(opcionTexto => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = opcionTexto;
+                    optionElement.textContent = opcionTexto;
+                    optgroup.appendChild(optionElement);
+                });
+                
+                subjectSelect.appendChild(optgroup);
             });
+
             subjectSelect.disabled = false;
             document.getElementById('cf_modalidad').value = modalidad;
             if (modalidadModal) {
@@ -249,6 +270,7 @@
             }
         }
 
+        // === LÓGICA DE ZOHO Y FORMULARIO (Sin cambios) ===
         var zsAttachedAttachmentsCount = 0;
         var zsAllowedAttachmentLimit = 5;
         var ZSEncoder = {encodeForHTML : function(str){if(str && typeof(str)==='string'){return jQuery.encoder.encodeForHTML(str);}return str;}};
@@ -274,37 +296,23 @@
         }
         
         function zsResetWebForm(webFormId) {
-            if(document.forms['zsWebToCase_' + webFormId]) {
-                document.forms['zsWebToCase_' + webFormId].reset();
-            }
-            if(document.getElementById('zsSubmitButton_1136017000000376367')) {
-                 document.getElementById('zsSubmitButton_1136017000000376367').removeAttribute('disabled');
-            }
+            if(document.forms['zsWebToCase_' + webFormId]) { document.forms['zsWebToCase_' + webFormId].reset(); }
+            if(document.getElementById('zsSubmitButton_1136017000000376367')) { document.getElementById('zsSubmitButton_1136017000000376367').removeAttribute('disabled'); }
             initAttachmentLogic();
-            if (document.forms['zsWebToCase_' + webFormId]['zsCloudPickerAttachments']) {
-                document.forms['zsWebToCase_' + webFormId]['zsCloudPickerAttachments'].value = JSON.stringify({});
-            }
+            if (document.forms['zsWebToCase_' + webFormId]['zsCloudPickerAttachments']) { document.forms['zsWebToCase_' + webFormId]['zsCloudPickerAttachments'].value = JSON.stringify({});}
             resetearYMostrarModal();
         }
         
-        function zsOpenFileBrowseAttachment(event, inputElement) {
-            if (zsAttachedAttachmentsCount >= zsAllowedAttachmentLimit) { event.preventDefault(); return; }
-        }
+        function zsOpenFileBrowseAttachment(event, inputElement) { if (zsAttachedAttachmentsCount >= zsAllowedAttachmentLimit) { event.preventDefault(); return; } }
         
         function zsRenderBrowseFileAttachment(inputElement) {
             if (inputElement.files.length === 0) return; 
             var file = inputElement.files[0];
             var fileName = file.name;
             var inputIdNum = parseInt(inputElement.id.replace('zsattachment_', ''));
-            if (file.size / (1024 * 1024) > 20) {
-                alert('El tamaño de archivo máximo permitido es 20MB.');
-                inputElement.value = ''; return;
-            }
+            if (file.size / (1024 * 1024) > 20) { alert('El tamaño de archivo máximo permitido es 20MB.'); inputElement.value = ''; return; }
             var unSupportedExtensions = ["ade","adp","apk","appx","appxbundle","bat","cab","cer","chm","cmd","com","cpl","dll","dmg","exe","hlp","hta","ins","iso","isp","jar","js","jse","lnk","mde","msc","msi","msix","msixbundle","msp","mst","nsh","pif","ps1","pst","reg","scr","sct","shb","sys","tmp","url","vb","vbe","vbs","vxd","wsc","wsf","wsh","terminal"];
-            if (unSupportedExtensions.includes(fileName.split('.').pop().toLowerCase())) {
-                alert("El archivo no se ha adjuntado porque su extensión no es compatible.");
-                inputElement.value = ''; return;
-            }
+            if (unSupportedExtensions.includes(fileName.split('.').pop().toLowerCase())) { alert("El archivo no se ha adjuntado porque su extensión no es compatible."); inputElement.value = ''; return; }
             if (zsAttachedAttachmentsCount < zsAllowedAttachmentLimit) {
                 var fileDisplayId = 'file_display_' + inputIdNum;
                 if (jQuery('#' + fileDisplayId).length > 0) {
@@ -463,14 +471,13 @@
         </div>
     </div>
 
-    <!-- MODAL DE SELECCIÓN DE MODALIDAD (DISEÑO MEJORADO) -->
+    <!-- MODAL DE SELECCIÓN DE MODALIDAD -->
     <div class="modal fade" id="modalidadModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalidadModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
                 <div class="modal-body text-center p-4 p-md-5">
 
                     <div class="modal-icon-container">
-                        <!-- Ícono de Brújula de Bootstrap Icons -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-compass-fill" viewBox="0 0 16 16">
                             <path d="M15.5 8.516a7.5 7.5 0 1 1-9.462-7.24A1 1 0 0 1 7 0h2a1 1 0 0 1 .962 1.276 7.503 7.503 0 0 1 5.538 7.24zM8 16a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10.5 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                         </svg>
